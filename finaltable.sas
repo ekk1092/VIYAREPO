@@ -42,3 +42,8 @@ run;
 proc sort data=PREIPEDSMRGD out=VIYAREPO.FINALTABLE nodupkey;
     by unitid;
 run;
+
+
+proc compare base=VIYAREPO.FINALTABLE compare=WORK.ipedsmerge4dsorted
+			out=comparison  outnoequal;
+run;
