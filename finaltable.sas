@@ -1,4 +1,5 @@
 libname IPEDS '~/IPEDS';
+LIBNAME VIYAREPO '~/VIYAREPO';
 options fmtsearch=(IPEDS); 
 
 
@@ -9,7 +10,8 @@ run;
 
 proc sql;
     create table AidPred as
-    select (uagrntn / scfa2) as GrantRate format=percentn8.2,
+    select unitid,
+		   (uagrntn / scfa2) as GrantRate format=percentn8.2,
 		   (uagrntt / scfa2) as GrantAvg,
 		   (upgrntn / scfa2) as PellRate format=percentn8.2,
 		   (ufloann / scfa2) as LoanRate format=percentn8.2,
@@ -37,6 +39,6 @@ data PREIPEDSMRGD;
 run;
 
 
-proc sort data=PREIPEDSMRGD out=IPEDSMRGD nodupkey;
+proc sort data=PREIPEDSMRGD out=VIYAREPO.FINALTABLE nodupkey;
     by unitid;
 run;
