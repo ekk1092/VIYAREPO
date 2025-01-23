@@ -27,10 +27,11 @@ run;
 proc sql;
 	create table SalPred as
 	select salaries.unitid, 
-		   (sa09mot / sa09mct) as AvgSalary,
-		   (scfa2 / sa09mct) as StuFacRatio
+		   sum(sa09mot) / sum(sa09mct) as AvgSalary,
+		   mean(scfa2) / sum(sa09mct) as StuFacRatio format=comma5.1
 	from ipeds.salaries inner join ipeds.aid
-	on salaries.unitid eq aid.unitid;
+	on salaries.unitid = aid.unitid
+	group by salaries.unitid;;
 quit;
 
 data PREIPEDSMRGD;
@@ -43,7 +44,7 @@ proc sort data=PREIPEDSMRGD out=VIYAREPO.FINALTABLE nodupkey;
     by unitid;
 run;
 
-/*  */
-/* proc compare base=VIYAREPO.FINALTABLE compare=WORK.ipedsmerge4dsorted */
-/* 			out=comparison  outnoequal; */
-/* run; */
+
+proc compare base=VIYAREPO.FINALTABLE compare=WORK.ipedsmerged
+			out=comparison  outnoequal;
+run;
