@@ -31,10 +31,10 @@ proc sql;
 		   mean(scfa2) / sum(sa09mct) as StuFacRatio format=comma5.1
 	from ipeds.salaries inner join ipeds.aid
 	on salaries.unitid = aid.unitid
-	group by salaries.unitid;;
+	group by salaries.unitid;
 quit;
 
-data PREIPEDSMRGD;
+data IPEDSMRGD;
 	merge ipeds.gradrates CharaPred AidPred TuitionPred SalPred;
 	by unitid;
 run;

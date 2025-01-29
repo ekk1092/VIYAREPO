@@ -25,7 +25,12 @@ proc sql;
 		when fee3 ne fee2 then 1
 	else 0
 	end as OutStateF, 
-	abs(fee3 - fee2) as OutStateFDiff
+	abs(fee3 - fee2) as OutStateFDiff,
+	case 
+	   when room eq 1 then 1
+       else 0
+    end as Housing,
+	(roomcap / scfa2) as ScaledHousingCap
 	from viyarepo.finaltable;
 quit;
 
